@@ -1,16 +1,14 @@
 <template>
   <div class="container mx-auto">
-    <HelloWorld />
+    home view
   </div>
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue';
 
 export default {
   name: 'Home',
   components: {
-    HelloWorld,
   },
 };
 </script>
