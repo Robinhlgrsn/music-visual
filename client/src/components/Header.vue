@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Header',
   props: {
     msg: String,
   },
@@ -25,11 +25,12 @@ export default {
   methods: {
     toggleRoutes() {
       if (this.isActive) {
-        this.$router.push({ path: '/' });
         this.isActive = false;
+        this.$router.push({ path: '/' });
       } else {
         this.isActive = true;
         this.$router.push({ path: '/manage' });
+        console.log(this.$router.props)
       }
     },
   },
