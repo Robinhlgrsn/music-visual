@@ -1,12 +1,21 @@
 <template>
-  <header class="container mx-auto py-4">
-    <nav class="flex justify-between items-center">
+  <header class="flex bg-gray-50 z-50 fixed top-0 inset-x-0 py-4">
+    <nav class="flex container w-full justify-between items-center mx-auto">
     <router-link to="/" exact-active-class="no active" class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600">
       Music
     </router-link>
-    <button :class="{ 'text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600' : isActive }" class="border-2 py-1 px-4 rounded-full font-bold" @click.prevent="toggleRoutes()">
-      {{ this.isActive ? 'Back' : 'Manage' }} 
-    </button>
+    <div class="flex items-center">
+      <div class="mx-10">        
+        <select @change="sendOption"  v-model="selected">
+          <option disabled value="0">picture mode</option>
+          <option value="2">Happy</option>
+          <option value="3">Dark</option>
+        </select>
+      </div>
+      <button :class="{ 'text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600' : isActive }" class="border-2 py-1 px-4 rounded-full font-bold" @click.prevent="toggleRoutes()">
+        {{ this.isActive ? 'Back' : 'Manage' }} 
+      </button>
+    </div>
     </nav>
   </header>
 </template>
@@ -20,6 +29,7 @@ export default {
   data() {
     return {
       isActive: false,
+      selected: null,
     };
   },
   methods: {
@@ -30,9 +40,13 @@ export default {
       } else {
         this.isActive = true;
         this.$router.push({ path: '/manage' });
-        console.log(this.$router.props)
       }
     },
+    sendOption() {
+      console.log(this.selected)
+      this.$emit('my-option', this.selected)
+      /* this.$store.dispatch('changeImgOption', this.selected) */
+    }
   },
 };
 </script>

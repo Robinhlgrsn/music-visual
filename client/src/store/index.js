@@ -1,7 +1,8 @@
-import { createStore } from 'vuex';
+import { createStore, storeKey } from 'vuex';
 
 export default createStore({
   state: {
+    selectOption: null,
     uploadedSongs: [
       {
         artist: "StereoFloat",
@@ -28,10 +29,12 @@ export default createStore({
       state.uploadedSongs[index].songTitle = payload.title
     },
     removeUploadedSong(state, payload) {
-      console.log(payload)
       const updatedList = state.uploadedSongs.filter(song => song.id !== payload)
       state.uploadedSongs = updatedList
-    }
+    },
+    setImgOption(state, payload) {
+      state.selectOption = payload
+    },
   },
   actions: {
     updateSong({ commit }, payload)  {
@@ -40,6 +43,9 @@ export default createStore({
     removeSong({ commit }, payload) {
       commit('removeUploadedSong', payload.id)
     },
+    async changeImgOption({ commit }, payload) {
+      commit('setImgOption', payload)
+    }
   },
   modules: {
   },
