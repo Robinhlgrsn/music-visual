@@ -8,8 +8,8 @@
       <div class="mx-10">        
         <select @change="sendOption"  v-model="selected">
           <option disabled value="0">picture mode</option>
-          <option value="2">Happy</option>
-          <option value="3">Dark</option>
+          <option value="2">Retro</option>
+          <option value="3">Summer</option>
         </select>
       </div>
       <button :class="{ 'text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600' : isActive }" class="border-2 py-1 px-4 rounded-full font-bold" @click.prevent="toggleRoutes()">

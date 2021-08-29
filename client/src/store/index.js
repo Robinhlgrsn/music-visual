@@ -3,22 +3,7 @@ import { createStore, storeKey } from 'vuex';
 export default createStore({
   state: {
     selectOption: null,
-    uploadedSongs: [
-      {
-        artist: "StereoFloat",
-        id: "1b4b818f-3cb4-460c-b9d2-7103f305f256",
-        originalTitle: "STEREOFLOAT - One-Way Mirrors.mp3",
-        path: "http://localhost:3000/song/1b4b818f-3cb4-460c-b9d2-7103f305f256",
-        songTitle: "One-Way Mirror"
-      },
-      {
-        artist: "2nd Song",
-        id: "1b4b818f-3cb4-460c-b9d2-7103f35f256",
-        originalTitle: "STEREOFLOAT - One-Way Mirrors.mp3",
-        path: "http://localhost:3000/song/1b4b818f-3cb4-460c-b9d2-7103f305f256",
-        songTitle: "One-Way Mirror"
-      },
-    ],
+    uploadedSongs: [],
   },
   mutations: {
     updateSongInfo(state, payload) {
@@ -35,8 +20,18 @@ export default createStore({
     setImgOption(state, payload) {
       state.selectOption = payload
     },
+    setSongs(state, payload) {
+      console.log(payload)
+      state.uploadedSongs = payload
+    },
   },
   actions: {
+    async getSongs({commit}) {
+      const songRes = await fetch('http://localhost:3000/songs');
+      const songData = await songRes.json();
+      console.log(songData)
+      commit('setSongs', songData)
+    },
     updateSong({ commit }, payload)  {
       commit('updateSongInfo', payload)
     },
