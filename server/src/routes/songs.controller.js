@@ -1,4 +1,5 @@
 let songs = require('../model/songs.model');
+const { unlink } = require('fs/promises')
 const path = require('path');
 
 function getAllSongs(req, res) {
@@ -38,11 +39,16 @@ function uploadSong(req, res) {
   res.status(200).json('Success!')
 }
 
-function deleteSong(req, res) {
+async function deleteSong(req, res) {
   const itemToRemove = songs.find((song) => song.id === req.params.id);
   if (itemToRemove) {
     songs = songs.filter(song => song.id !== itemToRemove.id)
     console.log(songs)
+    try {
+      await unlink(path.join(__dirname, '..', '..','public', 'uploads', req.params.id))
+    } catch (err) {
+      console.log(err)
+    }
     return res.status(200).json(itemToRemove);
   } else {
     return res.status(404).json({

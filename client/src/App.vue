@@ -1,5 +1,6 @@
 <template>
-  <div class="relative">
+  <div>
+
     <AppHeader @my-option="getPhotos" />
     <router-view v-slot="{Component}">
     <transition name="slide" mode="out-in">
@@ -13,7 +14,6 @@
 <script>
 import AppMusicPlayer from '@/components/MusicPlayer.vue';
 import AppHeader from '@/components/Header.vue';
-
 
 export default {
   name: 'App',

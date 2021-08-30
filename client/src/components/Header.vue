@@ -1,5 +1,5 @@
 <template>
-  <header class="flex bg-gray-50 z-50 fixed top-0 inset-x-0 py-4">
+  <header class="flex z-50 bg-gray-50 z-40 fixed top-0 inset-x-0 py-4">
     <nav class="flex container w-full justify-between items-center mx-auto">
     <router-link to="/" exact-active-class="no active" class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600">
       Music
