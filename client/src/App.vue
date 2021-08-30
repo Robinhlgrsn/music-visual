@@ -37,7 +37,7 @@ export default {
       async getPhotos(option) {
         this.isLoading = true;
         try {
-          const API_KEY = "Client-ID lU_jTDuxL1RXnVaEjSjM_UK4eI48LzcBLWIY98Gae44"
+          const API_KEY = ""
           let url;
           if (option === undefined) {
             url = 'query=music&color=black_and_white&orientation=landscape&per_page=50'
