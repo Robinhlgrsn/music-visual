@@ -1,12 +1,13 @@
 <template>
   <div>
     <transition name="fade" mode="in-out">
-      <img class="object-cover absolute w-screen h-screen" :src="unsplashImg[0].urls.full" alt="" v-if="unsplashImg.length > 0" v-show="!flag">
+      <img class="object-cover absolute w-screen h-screen" :src="unsplashImg[currentIndex].urls.full" alt="" v-if="unsplashImg.length > 0" v-show="!flag">
     </transition>
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Home',
@@ -17,12 +18,19 @@ export default {
       currentIndex: 0,
       interval: null,
       flag: false,
-      selectedMode: null
     }
   },
-  components: {
+  created() {
+    
+    this.interval = setInterval(() => {
+      this.currentIndex++
+    },5000)
+ },
+  beforeUnmount() {
+    clearInterval(this.interval)
   },
-
+  methods: {
+  }
 };
 </script>
 

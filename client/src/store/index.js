@@ -3,45 +3,60 @@ import { createStore, storeKey } from 'vuex';
 export default createStore({
   state: {
     selectOption: null,
-    uploadedSongs: [
-      {
-        artist: "StereoFloat",
-        id: "1b4b818f-3cb4-460c-b9d2-7103f305f256",
-        originalTitle: "STEREOFLOAT - One-Way Mirrors.mp3",
-        path: "http://localhost:3000/song/1b4b818f-3cb4-460c-b9d2-7103f305f256",
-        songTitle: "One-Way Mirror"
-      },
-      {
-        artist: "2nd Song",
-        id: "1b4b818f-3cb4-460c-b9d2-7103f35f256",
-        originalTitle: "STEREOFLOAT - One-Way Mirrors.mp3",
-        path: "http://localhost:3000/song/1b4b818f-3cb4-460c-b9d2-7103f305f256",
-        songTitle: "One-Way Mirror"
-      },
-    ],
+    uploadedSongs: [],
   },
   mutations: {
     updateSongInfo(state, payload) {
-      const songIndex = (song) => song.id === payload.id
-      const index = state.uploadedSongs.findIndex(songIndex)
-
-      state.uploadedSongs[index].artist = payload.artist
-      state.uploadedSongs[index].songTitle = payload.title
+      state.uploadedSongs = payload
     },
     removeUploadedSong(state, payload) {
       const updatedList = state.uploadedSongs.filter(song => song.id !== payload)
       state.uploadedSongs = updatedList
     },
     setImgOption(state, payload) {
-      state.selectOption = payload
+      state.selectOption = payload;
     },
+    setSongsList(state, payload) {
+      state.uploadedSongs = payload;
+    },
+    addNewSong(state, payload) {
+      state.uploadedSongs.push(payload)
+    }
   },
   actions: {
-    updateSong({ commit }, payload)  {
-      commit('updateSongInfo', payload)
+    async getSongs({commit}) {
+      const songRes = await fetch('http://localhost:3000/songs');
+      const songData = await songRes.json();
+      commit('setSongsList', songData)
     },
-    removeSong({ commit }, payload) {
-      commit('removeUploadedSong', payload.id)
+    async addNewSong({ commit }, payload) {
+        const response = await fetch('http://localhost:3000/songs', {
+          method: 'POST',
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+        const data = await response.json();
+        commit('addNewSong', data)
+    },
+    async updateSong({ commit }, payload)  {
+      const response = await fetch(`http://localhost:3000/songs/${payload.id}`, {
+        method: 'PUT',
+        body: JSON.stringify(payload),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      commit('updateSongInfo', data)
+    },
+    async removeSong({ commit }, payload) {
+      const response = await fetch(`http://localhost:3000/songs/${payload.id}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      commit('removeUploadedSong', data.id)
     },
     async changeImgOption({ commit }, payload) {
       commit('setImgOption', payload)

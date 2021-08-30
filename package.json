@@ -1,0 +1,23 @@
+{
+  "name": "music-visual",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "npm run serve --prefix client",
+    "server": "npm run watch --prefix server",
+    "watch" : "npm run server & npm run client",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Robinhlgrsn/music-visual.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Robinhlgrsn/music-visual/issues"
+  },
+  "homepage": "https://github.com/Robinhlgrsn/music-visual#readme"
+}

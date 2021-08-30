@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <AppHeader @my-option="getPhotos" />
     <router-view v-slot="{Component}">
     <transition name="slide" mode="out-in">
@@ -25,37 +26,42 @@ export default {
     return {
       selectedMode: null,
       img: [],
+      isLoading: false,
     }
   },
   created() {
-    this.getPhotos(undefined)
+    this.getPhotos(undefined);
+    this.$store.dispatch('getSongs');
   },
   methods: {
       async getPhotos(option) {
-        const API_KEY = "Client-ID"
-        let url;
-        if (option === undefined) {
-          url = 'color=black_and_white&orientation=landscape&per_page=16'
-        } else if(option === "2") {
-          url = 'color=yellow&orientation=landscape&per_page=16'
-        } else {
-          url = 'color=red&orientation=landscape&per_page=16'
-        }
-        const fetchImages = await fetch(`https://api.unsplash.com/search/photos?page=1&query=music&${url}`, {
-          method: 'GET',
-          headers: {
-            "Authorization": API_KEY
+        this.isLoading = true;
+        try {
+          const API_KEY = "Client-ID lU_jTDuxL1RXnVaEjSjM_UK4eI48LzcBLWIY98Gae44"
+          let url;
+          if (option === undefined) {
+            url = 'query=music&color=black_and_white&orientation=landscape&per_page=50'
+          } else if(option === "2") {
+            url = 'query=retro&orientation=landscape&per_page=50'
+          } else {
+            url = 'query=summer&orientation=landscape&per_page=50'
           }
-        })
-        const imageData = await fetchImages.json()
-        console.log(imageData)
-        const { results } = imageData
-        this.img = results
+          const fetchImages = await fetch(`https://api.unsplash.com/search/photos?page=1&${url}`, {
+            method: 'GET',
+            headers: {
+              "Authorization": API_KEY
+            }
+          })
+
+          const imageData = await fetchImages.json();
+          const { results } = imageData;
+            this.img = results;
+          console.log('request sent')
+            this.isLoading = false;
+        } catch (err) {
+          console.log(err, 'nu blev det fel')
+        }
     },
-  },
-  beforeUnmount() {
-    clearInterval(this.interval)
-    console.log('intervall cleared!')
   },
 };
 

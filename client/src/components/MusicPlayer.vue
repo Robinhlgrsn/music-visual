@@ -1,10 +1,11 @@
 <template>
-  <div class="bottom-0 flex justify-around items-center fixed min-w-full bg-gray-50 mx-auto">
-
+  <div class="bottom-0 z-50 flex justify-around items-center fixed min-w-full bg-gray-50 mx-auto">
+    <teleport to="#modaldiv" v-if="toggleModal">
+      <AppModal/>
+    </teleport>
     <section class="flex justify-center">
-      Artist - Song title
+      <button @click.prevent="toggleModal = !toggleModal" ><i class="text-5xl fas fa-list"></i></button> 
     </section>
-
     <section class="flex items-center flex-col w-2/3 p-4">
       <button class="border shadow rounded-full my-5 h-12 w-12">
         <i class="fas fa-play pl-1.5 text-2xl"></i>
@@ -30,7 +31,18 @@
 </template>
 
 <script>
+import AppModal from '@/components/Modal.vue';
+
+
 export default {
   name: 'MusicPlayer',
+  components: {
+    AppModal,
+  },
+  data() {
+    return {
+      toggleModal: false,
+    };
+  },
 }
 </script>

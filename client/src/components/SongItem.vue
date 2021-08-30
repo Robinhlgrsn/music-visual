@@ -57,7 +57,6 @@ export default {
       this.isEditing = false; 
     },
     removeSong(id) {
-      console.log('heyaa')
       this.$store.dispatch('removeSong', { id });
     },
   }
