@@ -58,9 +58,9 @@ export default {
         artist: this.artist,
         songTitle: this.songTitle,
         originalTitle: this.uploadedFile.name,
-        path: "path till filplatsen",
+        path: `http://localhost:3000/songs/${this.id}`,
       });
-
+      
       /* Send songupload to backend */
       const songFormData = new FormData();
       songFormData.set('songUpload', this.uploadedFile); 
@@ -71,6 +71,8 @@ export default {
       const data = await response.json();
       console.log(data)
       this.uploadedFile = null;
+      this.artist = null
+      this.songTitle = null
     }
   },
 }

@@ -30,7 +30,6 @@ function updateSongInfo(req, res) {
   const index = songs.findIndex(songIndex)
   songs[index].artist = req.body.artist
   songs[index].songTitle = req.body.title
-
   res.status(200).json(songs);
 }
 
@@ -43,16 +42,15 @@ async function deleteSong(req, res) {
   const itemToRemove = songs.find((song) => song.id === req.params.id);
   if (itemToRemove) {
     songs = songs.filter(song => song.id !== itemToRemove.id)
-    console.log(songs)
     try {
       await unlink(path.join(__dirname, '..', '..','public', 'uploads', req.params.id))
     } catch (err) {
       console.log(err)
     }
-    return res.status(200).json(itemToRemove);
+    return res.status(200).json(songs);
   } else {
     return res.status(404).json({
-      error: 'Did not find'
+      error: 'Not found'
     })
   }
 }

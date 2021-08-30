@@ -7,6 +7,7 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    props: { isActive: false }
   },
   {
     path:'/manage',
