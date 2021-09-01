@@ -17,7 +17,9 @@
       <div v-show="this.uploadedFile">
         <p>{{ this.uploadedFile?.name }}</p>
       </div>
-    <button class="border-2 my-3 py-1 px-4 rounded-full font-bold">Submit</button>
+    <button v-if="!isLoading" class="border-2 my-3 py-1 px-4 rounded-full font-bold">Submit</button >
+    <div class="my-3 py-1" v-else><AppSpinner /></div>
+  <p class="text-red-500">{{isRequired}}</p>
   </form>
   <section>
 
@@ -27,9 +29,13 @@
 
 <script>
 import { v4 as uuidv4 } from 'uuid';
+import AppSpinner from '@/components/Spinner.vue';
 
 export default {
   name: 'Form',
+  components: {
+    AppSpinner,
+  },
   data() {
     return {
       activeHover: false,
@@ -37,6 +43,8 @@ export default {
         songTitle: null,
         id: null,
         uploadedFile: null,
+        isLoading: false,
+        isRequired: null,
     };
   },
   methods: {
@@ -44,32 +52,51 @@ export default {
       this.uploadedFile = null;
       this.activeHover = false;
       const submittedFile = $event.dataTransfer.files[0]
-      console.log(submittedFile)
       this.uploadedFile = submittedFile
     },
     async addSong() {
-      if (this.uploadedFile === null) {
-       return console.log('select a file!');
-      } 
-
       this.id = uuidv4()
-      this.$store.dispatch('addNewSong', {
-        id: this.id,
-        artist: this.artist,
-        songTitle: this.songTitle,
-        originalTitle: this.uploadedFile.name,
-        path: `http://localhost:3000/songs/${this.id}`,
-      });
+      if (!this.uploadedFile || !this.artist || !this.songTitle) {
+       return this.isRequired = 'fields and file is required for upload.';
+      } 
+      try {
+        this.isLoading = true;
+        const response = await fetch(`http://localhost:3000/songs`, {
+          method: 'POST',
+            headers: {
+            "Content-Type": "application/json"
+            },
+          body: JSON.stringify({
+          id: this.id,
+          artist: this.artist,
+          songTitle: this.songTitle,
+          originalTitle: this.uploadedFile.name,
+          path: `http://localhost:3000/songs/${this.id}`,
+          })
+        });
+        const songDetails = await response.json();
+        setTimeout(() => {
+          this.isLoading = false;
+          this.$store.dispatch('addNewSong', songDetails);
+        },1000)
+      } catch (err) {
+        console.log(err)
+      }
       
-      /* Send songupload to backend */
-      const songFormData = new FormData();
-      songFormData.set('songUpload', this.uploadedFile); 
-      const response = await fetch(`http://localhost:3000/songs/uploads/${this.id}`, {
-        method: 'POST',
-        body: songFormData,
-      });
-      const data = await response.json();
-      console.log(data)
+      try {
+        /* Send songupload to backend */
+        const songFormData = new FormData();
+        songFormData.set('songUpload', this.uploadedFile); 
+        const uploadResponse = await fetch(`http://localhost:3000/songs/uploads/${this.id}`, {
+          method: 'POST',
+          body: songFormData,
+        });
+        const uploadData = await uploadResponse.json();
+        console.log(uploadData)
+      } catch (err) {
+        console.log(err)
+      }
+      this.isRequired = null;
       this.uploadedFile = null;
       this.artist = null
       this.songTitle = null

@@ -16,21 +16,11 @@ export default createStore({
       state.seek = timeFormat(state.sound.seek());
       state.duration = timeFormat(state.sound.duration());
     },
-    updateSongInfo(state, payload) {
-      state.uploadedSongs = payload
-    },
-    removeUploadedSong(state, payload) {
-      
-      state.uploadedSongs = payload
-    },
     setImgOption(state, payload) {
       state.selectOption = payload;
     },
-    setSongsList(state, payload) {
-      state.uploadedSongs = payload;
-    },
-    addNewSong(state, payload) {
-      state.uploadedSongs.push(payload)
+    updateSongInfo(state, payload) {
+      state.uploadedSongs = payload
     },
     playSelectedSong(state, payload) {
       state.songPlaying = payload;
@@ -55,18 +45,10 @@ export default createStore({
     async getSongs({commit}) {
       const songRes = await fetch('http://localhost:3000/songs');
       const songData = await songRes.json();
-      commit('setSongsList', songData)
+      commit('updateSongInfo', songData)
     },
     async addNewSong({ commit }, payload) {
-        const response = await fetch('http://localhost:3000/songs', {
-          method: 'POST',
-          body: JSON.stringify(payload),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-        const data = await response.json();
-        commit('addNewSong', data)
+      commit('updateSongInfo', payload)
     },
     async updateSong({ commit }, payload)  {
       const response = await fetch(`http://localhost:3000/songs/${payload.id}`, {
@@ -84,7 +66,7 @@ export default createStore({
         method: 'DELETE',
       });
       const data = await response.json();
-      commit('removeUploadedSong', data);
+      commit('updateSongInfo', data);
     },
     async changeImgOption({ commit }, payload) {
       commit('setImgOption', payload);

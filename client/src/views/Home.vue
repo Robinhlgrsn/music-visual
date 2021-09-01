@@ -1,7 +1,9 @@
 <template>
   <div>
     <transition name="fade" mode="in-out">
-      <img class="object-cover absolute w-screen h-screen" :src="unsplashImg[currentIndex].urls.full" alt="" v-if="unsplashImg.length > 0" v-show="!flag">
+      <img class="object-cover absolute w-screen h-screen" 
+        :src="unsplashImg[currentIndex].urls?.full" alt="" 
+        v-if="unsplashImg.length > 0" v-show="!flag">
     </transition>
   </div>
 </template>
@@ -13,25 +15,20 @@ export default {
   props:['unsplashImg'],
   data() {
     return {
-      img: [],
       currentIndex: 0,
       interval: null,
       flag: false,
     }
   },
-  created() {
+  async created() {
     
     this.interval = setInterval(() => {
-      this.currentIndex++
+        this.currentIndex = Math.floor(Math.random() * this.unsplashImg.length);
     },5000)
+
  },
   beforeUnmount() {
-    clearInterval(this.interval)
+    clearInterval(this.interval);
   },
-  methods: {
-  }
 };
 </script>
-
-<style>
-</style>
