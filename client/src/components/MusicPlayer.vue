@@ -3,27 +3,33 @@
     <teleport to="#modaldiv" v-if="toggleModal">
       <AppModal @on-close="closeModal"  />
     </teleport>
-    <section class="flex justify-center">
-      <button :class="{'text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600' : toggleModal }" 
+
+    <section class="flex flex-1 justify-center">
+      <button class="flex justify-center" :class="{'text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600' : toggleModal }" 
         @click.prevent="toggleModal = !toggleModal" >
-        <i class="text-5xl fas fa-list"></i>
+        <i class="
+          lg:text-6xl
+          text-4xl fas fa-list"></i>
       </button> 
     </section>
-    <section class="flex items-center flex-col w-2/3 p-4">
+
+    <section class="flex flex-1 items-center flex-col w-2/3 p-4">
       <button @click.prevent="togglePlay" class="border shadow rounded-full my-5 h-12 w-12">
         <i class="fas fa-play pl-1.5 text-2xl" v-if="!playing"></i>
         <i class="fas fa-pause pl-0.5 text-2xl" v-else></i>
       </button>
 
-      <div class="flex">
+      <div class="flex font-bold">
           {{ seek }}
           /
          {{ duration }}
       </div>
     </section>
 
-    <section class="flex justify-center">
-      Volume scrub
+    <section class="flex flex-1 justify-center">
+      <input 
+        @input="changeVolume" v-model="playerVolume"
+          min="0.0" max="1.0" step="0.01" type="range">
     </section>
 
   </div>
@@ -31,7 +37,8 @@
 
 <script>
 import AppModal from '@/components/Modal.vue';
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex';
+import { Howler } from 'howler';
 
 export default {
   name: 'MusicPlayer',
@@ -42,6 +49,7 @@ export default {
   data() {
     return {
       toggleModal: false,
+      playerVolume:0.5,
     };
   },
   computed: {
@@ -50,9 +58,12 @@ export default {
   },
   methods: {
     ...mapActions(['togglePlay']),
-  closeModal() {
+    closeModal() {
     this.toggleModal = false;
-  }
+    },
+    changeVolume() {
+      Howler.volume(this.playerVolume)
+    },
   },
 }
 </script>

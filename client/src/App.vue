@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <AppHeader @my-option="getPhotos" />
     <router-view v-slot="{Component}">
     <transition name="slide" mode="out-in">
@@ -24,13 +23,12 @@ export default {
   emits: ['my-option'],
   data() {
     return {
-      selectedMode: null,
       img: [],
       isLoading: false,
     }
   },
   created() {
-    this.getPhotos(undefined);
+    this.getPhotos("0");
     this.$store.dispatch('getSongs');
   },
   methods: {
@@ -39,13 +37,16 @@ export default {
         try {
           const API_KEY = ""
           let url;
-          if (option === undefined) {
+          if (option === "0") {
             url = 'query=music&color=black_and_white&orientation=landscape&per_page=50'
-          } else if(option === "2") {
+          } else if (option === "1") {
             url = 'query=retro&orientation=landscape&per_page=50'
-          } else {
-            url = 'query=summer&orientation=landscape&per_page=50'
+          } else if (option === "2") {
+            url = 'query=nature&orientation=landscape&per_page=50'
+          } else if (option === "3") {
+            url = 'query=travel&orientation=landscape&per_page=50'
           }
+
           const fetchImages = await fetch(`https://api.unsplash.com/search/photos?page=1&${url}`, {
             method: 'GET',
             headers: {
