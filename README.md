@@ -12,7 +12,7 @@ Eftersom 'DELETE' är beroende av att ta bort en fil som hör ihop med datan vi 
 
 ## För att köra projeket:
 - Stå i projektets root-mapp och öppna terminalen och kör
- ```npm install```
+ ```npm install;```
  ```npm run watch```
 - servern körs på port 3000 och klienten port 8080.
 
