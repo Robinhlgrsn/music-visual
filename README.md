@@ -10,7 +10,7 @@ I headern finns en dropdown där du kan välja fototema utifrån ett antal kater
 I root-mappen ligger en endpoints.rest fil där du kan testa mitt Express APIs endpoints.
 Eftersom 'DELETE' är beroende av att ta bort en fil som hör ihop med datan vi vill ta bort kommer den kasta ett fel, eftersom den inte kan hitta filen, men datan tas fortfarande bort.
 
-## För att köra projeket:
+## För att köra projektet:
 - Stå i projektets root-mapp och öppna terminalen och kör
  1. npm install
  2. npm run watch
