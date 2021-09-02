@@ -24,7 +24,6 @@
           <button class="border-2 py-1 px-4 rounded-full font-bold" >Save</button>
           <button class="border-2 py-1 px-4 rounded-full font-bold" @click.prevent="isEditing = !isEditing">Back</button>
         </div>
-        
       </form>
   <div>
 

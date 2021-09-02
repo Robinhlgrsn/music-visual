@@ -21,11 +21,9 @@ export default {
     }
   },
   async created() {
-    
     this.interval = setInterval(() => {
         this.currentIndex = Math.floor(Math.random() * this.unsplashImg.length);
     },5000)
-
  },
   beforeUnmount() {
     clearInterval(this.interval);

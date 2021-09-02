@@ -9,11 +9,11 @@ const { getAllSongs,
   updateSongInfo,
   getSongFile } = require('./songs.controller');
 
+songRouter.post('/', addSong);
 songRouter.get('/', getAllSongs);
 songRouter.get('/:id', getSongFile);
-songRouter.put('/:id', updateSongInfo);
-songRouter.post('/', addSong);
-songRouter.post('/uploads/:id', upload.single('songUpload'), uploadSong);
 songRouter.delete('/:id', deleteSong);
+songRouter.put('/:id', updateSongInfo);
+songRouter.post('/uploads/:id', upload.single('songUpload'), uploadSong);
 
 module.exports = songRouter;

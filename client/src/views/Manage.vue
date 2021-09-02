@@ -10,7 +10,7 @@
       <header class="py-1 text-5xl my-6 font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600">
         Songs
       </header>
-      <div class="flex flex-col " v-for="song in uploadedSongs" :key="song.id">
+      <div class="flex flex-col xl:w-1/3 mb-2" v-for="song in uploadedSongs" :key="song.id">
         <SongItem :artist="song.artist" :id="song.id" :title="song.songTitle" />
       </div>
     </section>
@@ -30,11 +30,7 @@ export default {
     SongItem,
   },
   computed: {
-    ...mapState(['uploadedSongs'])
+    ...mapState(['uploadedSongs']),
   }
 }
 </script>
-
-<style>
-
-</style>

@@ -1,6 +1,7 @@
 import { createStore, storeKey } from 'vuex';
 import { Howl } from 'howler';
 import { timeFormat } from '../handlers/time'
+import { getAllSongs, editSong, deleteSong } from '../handlers/requests'
 
 export default createStore({
   state: {
@@ -43,30 +44,19 @@ export default createStore({
       }
     },
     async getSongs({commit}) {
-      const songRes = await fetch('http://localhost:3000/songs');
-      const songData = await songRes.json();
-      commit('updateSongInfo', songData)
+      const songData = await getAllSongs();
+      commit('updateSongInfo', songData);
     },
     async addNewSong({ commit }, payload) {
       commit('updateSongInfo', payload)
     },
     async updateSong({ commit }, payload)  {
-      const response = await fetch(`http://localhost:3000/songs/${payload.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
+      const data = await editSong(payload)
       commit('updateSongInfo', data)
     },
     async removeSong({ commit }, payload) {
-      const response = await fetch(`http://localhost:3000/songs/${payload.id}`, {
-        method: 'DELETE',
-      });
-      const data = await response.json();
-      commit('updateSongInfo', data);
+        const data = await deleteSong(payload.id)
+        commit('updateSongInfo', data);
     },
     async changeImgOption({ commit }, payload) {
       commit('setImgOption', payload);

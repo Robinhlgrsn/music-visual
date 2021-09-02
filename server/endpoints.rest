@@ -1,13 +1,30 @@
+@contentType = application/json
 GET http://localhost:3000/songs HTTP/1.1
 
-POST http://localhost:3000/songs HTTP/1.1
-Content-Type: application/json
-  {
-    "id": "fc2cbd46-d7bf-4b1f-b66b-4efe162c4161",
-    "artist": "awd",
-    "songTitle": "awd",
-    "originalTitle": "TAR_As If We Were Never Here_11_As If We Were Never Here_SE5P51906511_HiResMaster_48k_24b-LC-AAC_1.mp3",
-    "path": "http://localhost:3000/songs/fc2cbd46-d7bf-4b1f-b66b-4efe162c4161"
-  }
+###
 
-DELETE http://localhost:3000/songs/:id HTTP/1.1
+POST http://localhost:3000/songs HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+"id": "123",
+"artist": "Artist",
+"songTitle": "Låttitel",
+"originalTitle": "TAR_As If We Were Never Here_11_As If We Were Never Here_SE5P51906511_HiResMaster_48k_24b-LC-AAC_1.mp3",
+"path": "http://localhost:3000/songs/fc2cbd46-d7bf-4b1f-b66b-4efe162c4161"
+}
+
+###
+
+PUT http://localhost:3000/songs/123 HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+"id": "123",
+"artist": "Aratist",
+"title": "Låttiatel" 
+}
+
+###
+
+DELETE http://localhost:3000/songs/123 HTTP/1.1
