@@ -5,11 +5,11 @@
     </teleport>
 
     <section class="flex flex-1 justify-center">
-      <button class="flex justify-center" :class="{'text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600' : toggleModal }" 
+      <button class="flex justify-center transition duration-500  rounded-xl transform hover:scale-110" :class="{'text-transparent bg-clip-text bg-gradient-to-br from-pink-400 to-red-600' : toggleModal }" 
         @click.prevent="toggleModal = !toggleModal" >
         <i class="
-          lg:text-6xl
-          text-4xl fas fa-list"></i>
+          
+          lg:text-6xl text-4xl fas fa-list"></i>
       </button> 
     </section>
 

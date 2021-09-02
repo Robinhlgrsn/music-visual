@@ -13,6 +13,7 @@
 <script>
 import AppMusicPlayer from '@/components/MusicPlayer.vue';
 import AppHeader from '@/components/Header.vue';
+import { getUnsplashImgs } from './handlers/requests'
 
 export default {
   name: 'App',
@@ -24,44 +25,17 @@ export default {
   data() {
     return {
       img: [],
-      isLoading: false,
     }
   },
   created() {
-    this.getPhotos("0");
+    this.getPhotos('music');
     this.$store.dispatch('getSongs');
   },
   methods: {
       async getPhotos(option) {
-        this.isLoading = true;
-        try {
-          const API_KEY = ""
-          let url;
-          if (option === "0") {
-            url = 'query=music&color=black_and_white&orientation=landscape&per_page=50'
-          } else if (option === "1") {
-            url = 'query=retro&orientation=landscape&per_page=50'
-          } else if (option === "2") {
-            url = 'query=nature&orientation=landscape&per_page=50'
-          } else if (option === "3") {
-            url = 'query=travel&orientation=landscape&per_page=50'
-          }
-
-          const fetchImages = await fetch(`https://api.unsplash.com/search/photos?page=1&${url}`, {
-            method: 'GET',
-            headers: {
-              "Authorization": API_KEY
-            }
-          })
-
-          const imageData = await fetchImages.json();
-          const { results } = imageData;
-            this.img = results;
-          console.log('request sent')
-            this.isLoading = false;
-        } catch (err) {
-          console.log(err, 'nu blev det fel')
-        }
+          let url = `query=${option}&&orientation=landscape&per_page=50`;
+          const { results } = await getUnsplashImgs(url);
+          this.img = results;
     },
   },
 };

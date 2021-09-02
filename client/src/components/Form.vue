@@ -13,16 +13,16 @@
       @dragenter.prevent.stop="activeHover = true"
       @dragleave.prevent.stop="activeHover = false"
       @drop.prevent.stop="uploadSong($event)"
-      class="flex justify-center rounded items-center border w-full h-10 p-10 bg-gray-50">Drop the song you want to upload here</div>
-      <div v-show="this.uploadedFile">
+      class="flex justify-center rounded items-center border w-full h-10 p-10 mb-10 bg-gray-50">Drop the song you want to upload here</div>
+      <div class="flex my-2" v-show="this.uploadedFile">
+        <p class="font-bold">File:</p>
         <p>{{ this.uploadedFile?.name }}</p>
       </div>
-    <button v-if="!isLoading" class="border-2 my-3 py-1 px-4 rounded-full font-bold">Submit</button >
+    <AppButton v-if="!isLoading">Submit</AppButton >
     <div class="my-3 py-1" v-else><AppSpinner /></div>
   <p class="text-red-500">{{isRequired}}</p>
   </form>
   <section>
-
   </section>
 </div>
 </template>
@@ -30,6 +30,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import AppSpinner from '@/components/Spinner.vue';
+import AppButton from '@/components/Button.vue';
 
 export default {
   name: 'Form',
@@ -47,18 +48,28 @@ export default {
         isRequired: null,
     };
   },
+  components: {
+    AppButton,
+    AppSpinner
+  },
   methods: {
     uploadSong($event) {
       this.uploadedFile = null;
       this.activeHover = false;
       const submittedFile = $event.dataTransfer.files[0]
+      if (submittedFile.type !== "audio/mpeg" && submittedFile.type !== "audio/mp3") {
+        this.isRequired = 'Only mp3!'
+      }
+      
       this.uploadedFile = submittedFile
+      console.log(this.uploadedFile.type)
     },
     async addSong() {
       this.id = uuidv4()
       if (!this.uploadedFile || !this.artist || !this.songTitle) {
        return this.isRequired = 'fields and file is required for upload.';
       } 
+
       try {
         this.isLoading = true;
         const response = await fetch(`http://localhost:3000/songs`, {
@@ -84,7 +95,6 @@ export default {
       }
       
       try {
-        /* Send songupload to backend */
         const songFormData = new FormData();
         songFormData.set('songUpload', this.uploadedFile); 
         const uploadResponse = await fetch(`http://localhost:3000/songs/uploads/${this.id}`, {
@@ -92,7 +102,6 @@ export default {
           body: songFormData,
         });
         const uploadData = await uploadResponse.json();
-        console.log(uploadData)
       } catch (err) {
         console.log(err)
       }

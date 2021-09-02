@@ -16,19 +16,20 @@ function getAllSongs(req, res) {
 }
 
 function addSong(req, res) {
-  console.log(req.body)
   const song = req.body;
-  if (!song.id || !song.artist || !song.songTitle || !song.originalTitle || !song.path) {
-    res.status(400).json({
+    if (!song.id || !song.artist || !song.songTitle || !song.originalTitle || !song.path) {
+    return res.status(400).json({
       error: 'Missing required fields!'
     });
   } else {
     songs.push(req.body);
+    console.log(req.body)
     return res.status(201).json(songs);
   }
 }
 
 function updateSongInfo(req, res) {
+  console.log(req)
   const songIndex = (song) => song.id === req.body.id
   const index = songs.findIndex(songIndex)
   songs[index].artist = req.body.artist
@@ -42,33 +43,32 @@ function uploadSong(req, res) {
       error: 'Wrong format or missing file!'
     })
   }
-  console.log(req.file.mimetype)
   return res.status(200).json('Success!')
 }
 
 async function deleteSong(req, res) {
+
+  try {
+    await unlink(path.join(__dirname, '..', 'uploads', req.params.id));
+  } catch (err) {
+    res.status(500).json({ error: err });
+  }
   const itemToRemove = songs.find((song) => song.id === req.params.id);
   if (itemToRemove) {
     songs = songs.filter(song => song.id !== itemToRemove.id);
-    try {
-      await unlink(path.join(__dirname, '..',  'uploads', req.params.id));
-    } catch (err) {
-      res.status(404).json({error: 'Not found!'})
-    }
     return res.status(200).json(songs);
-
   } else {
     return res.status(404).json({
-      error: 'Song not found!',
+      error: 'Songfile not found!',
     })
   }
 }
 
 module.exports = {
-  getAllSongs,
   addSong,
   uploadSong,
   deleteSong,
+  getAllSongs,
+  getSongFile,
   updateSongInfo,
-  getSongFile
 };
