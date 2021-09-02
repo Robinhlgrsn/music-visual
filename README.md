@@ -12,9 +12,14 @@ I root-mappen ligger en endpoints.rest fil där du kan testa mitt Express APIs e
 Eftersom 'DELETE' är beroende av att ta bort en fil som hör ihop med datan vi vill ta bort kommer den kasta ett fel, eftersom den inte kan hitta filen, men datan tas fortfarande bort.
 
 ## För att köra projektet:
-- Stå i projektets root-mapp och öppna terminalen och kör
- 1. npm install
- 2. npm run watch
+- Stå i projektets root-mapp och öppna terminalen och kör:
+
+```
+npm install 
+```
+```
+npm run watch
+```
 - servern körs på port 3000 och klienten port 8080.
 
 Länk till GitHubprojekt: https://github.com/Robinhlgrsn/music-visual.git
