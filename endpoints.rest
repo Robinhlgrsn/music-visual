@@ -21,8 +21,8 @@ Content-Type: {{contentType}}
 
 {
 "id": "123",
-"artist": "Aratist",
-"title": "Låttiatel" 
+"artist": "ändrad artist",
+"title": "ändrad låttitel" 
 }
 
 ###

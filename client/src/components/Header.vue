@@ -37,11 +37,16 @@ export default {
       selected: null,
     };
   },
-  beforeCreate() {
-    console.log(this.$router.currentRoute.value)
+  created() {
+    console.log(this.getRoute)
   },
   components: {
     AppButton,
+  },
+  computed: {
+    getRoute() {
+      return this.$router.currentRoute._value
+    },
   },
   methods: {
     toggleRoutes() {

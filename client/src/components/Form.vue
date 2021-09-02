@@ -1,30 +1,32 @@
 <template>
-<div>
+  <div>
     <form @submit.prevent="addSong" class="flex flex-col items-center p-10">
       <div class="mb-10">
         <input class="border py-1 px-4 mx-2 rounded font-bold" v-model="artist" placeholder="Artist" type="text">
         <input class="border py-1 px-4 mx-2 rounded font-bold" v-model="songTitle" placeholder="Song Title" type="text">
       </div>
       <div :class="{ 'bg-gradient-to-br from-pink-200 to-red-200 hover:from-pink-200 hover:to-red-200': activeHover }"
-      @drag.prevent.stop=""
-      @dragstart.prevent.stop=""
-      @dragend.prevent.stop="activeHover = false"
-      @dragover.prevent.stop="activeHover = true"
-      @dragenter.prevent.stop="activeHover = true"
-      @dragleave.prevent.stop="activeHover = false"
-      @drop.prevent.stop="uploadSong($event)"
-      class="flex justify-center rounded items-center border w-full h-10 p-10 mb-10 bg-gray-50">Drop the song you want to upload here</div>
+        @drag.prevent.stop=""
+        @dragstart.prevent.stop=""
+        @dragend.prevent.stop="activeHover = false"
+        @dragover.prevent.stop="activeHover = true"
+        @dragenter.prevent.stop="activeHover = true"
+        @dragleave.prevent.stop="activeHover = false"
+        @drop.prevent.stop="uploadSong($event)"
+        class="flex justify-center rounded items-center border w-full h-10 p-10 mb-10 bg-gray-50">
+        Drop the audio file you want to upload here
+      </div>
       <div class="flex my-2" v-show="this.uploadedFile">
         <p class="font-bold">File:</p>
         <p>{{ this.uploadedFile?.name }}</p>
       </div>
-    <AppButton v-if="!isLoading">Submit</AppButton >
-    <div class="my-3 py-1" v-else><AppSpinner /></div>
-  <p class="text-red-500">{{isRequired}}</p>
-  </form>
-  <section>
-  </section>
-</div>
+      <AppButton v-if="!isLoading">Submit</AppButton >
+      <div class="my-3 py-1" v-else>
+        <AppSpinner />
+      </div>
+      <p class="text-red-500">{{isRequired}}</p>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -58,14 +60,12 @@ export default {
       this.activeHover = false;
       const submittedFile = $event.dataTransfer.files[0]
       if (submittedFile.type !== "audio/mpeg" && submittedFile.type !== "audio/mp3") {
-        this.isRequired = 'Only mp3!'
+        return this.isRequired = 'Only mp3!';
       }
-      
-      this.uploadedFile = submittedFile
-      console.log(this.uploadedFile.type)
+      this.uploadedFile = submittedFile;
     },
     async addSong() {
-      this.id = uuidv4()
+      this.id = uuidv4();
       if (!this.uploadedFile || !this.artist || !this.songTitle) {
        return this.isRequired = 'fields and file is required for upload.';
       } 
