@@ -1,4 +1,4 @@
-const API_KEY = "Client-ID lU_jTDuxL1RXnVaEjSjM_UK4eI48LzcBLWIY98Gae44";
+const API_KEY = "";
 const BASE_URL = 'http://localhost:3000';
 
 export const getAllSongs = async () => {
